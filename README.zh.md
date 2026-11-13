@@ -1,5 +1,9 @@
 # mcp-task-board
 
+[![test](https://github.com/keyangtian/mcp-task-board/actions/workflows/ci.yml/badge.svg)](https://github.com/keyangtian/mcp-task-board/actions/workflows/ci.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](package.json)
+
 **智能体不共享运行时，那就给它们一块板。**
 
 一块长在文件系统上的任务板，零依赖：Claude Code、WorkBuddy、DeepSeek Harness、定时脚本、带 shell 的 Python 机器人…… 任何智能体都能从同一条队列里领活。

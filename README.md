@@ -1,5 +1,9 @@
 # mcp-task-board
 
+[![test](https://github.com/keyangtian/mcp-task-board/actions/workflows/ci.yml/badge.svg)](https://github.com/keyangtian/mcp-task-board/actions/workflows/ci.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](package.json)
+
 **Agents don't share a runtime. Give them a board.**
 
 A tiny, dependency-free task board that lives on the filesystem, so *any* agent — a Claude Code session, a WorkBuddy desktop app, a DeepSeek Harness run, a cron script, a Python bot with a shell tool — can pick up work from the same queue.
