@@ -20,6 +20,7 @@ import {
   readEvents,
 } from '../src/board.mjs';
 import { startMcpServer } from '../src/mcp.mjs';
+import { createA2AServer } from '../src/a2a.mjs';
 
 const HELP = `mcp-task-board — a shared task board for heterogeneous AI agents
 
@@ -48,6 +49,8 @@ AGENTS
 
 INTEGRATION
   mcp        Run as an MCP stdio server (for Claude Code, WorkBuddy, DeepSeek Harness, ...)
+  a2a        Run an A2A server (agent card + message/send + tasks/get + SSE)
+             [--host 127.0.0.1] [--port 7801] [--public-url URL] [--token T]
   init       Create the board directory
 
 GLOBAL
@@ -269,6 +272,22 @@ function run(argv) {
     case 'mcp':
       startMcpServer({ home });
       return 0;
+    case 'a2a': {
+      const a2a = createA2AServer({
+        home,
+        agent,
+        host: typeof opts.host === 'string' ? opts.host : '127.0.0.1',
+        port: opts.port ? Number(opts.port) : 7801,
+        publicUrl: typeof opts['public-url'] === 'string' ? opts['public-url'] : null,
+        token: typeof opts.token === 'string' ? opts.token : null,
+        onLog: (line) => console.error(`[a2a] ${line}`),
+      });
+      return a2a.listen().then(({ url }) => {
+        console.log(JSON.stringify({ ok: true, url, card: `${url}/.well-known/agent-card.json` }, null, 2));
+        process.on('SIGINT', () => a2a.close().then(() => process.exit(0)));
+        return 0;
+      });
+    }
     case undefined:
     case 'help':
       console.log(HELP);
@@ -279,7 +298,19 @@ function run(argv) {
 }
 
 try {
-  process.exitCode = run(process.argv.slice(2));
+  const outcome = run(process.argv.slice(2));
+  if (outcome && typeof outcome.then === 'function') {
+    outcome
+      .then((code) => {
+        if (typeof code === 'number') process.exitCode = code;
+      })
+      .catch((e) => {
+        console.error(`mcp-task-board: ${e?.message ?? e}`);
+        process.exitCode = 1;
+      });
+  } else {
+    process.exitCode = outcome;
+  }
 } catch (e) {
   console.error(`mcp-task-board: ${e?.message ?? e}`);
   process.exitCode = 1;

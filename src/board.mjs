@@ -198,6 +198,7 @@ export function postTask({
   leaseMs = 10 * 60_000,
   clientToken = null,
   allowMissingDeps = false,
+  meta = null,
   home = boardHome(),
 } = {}) {
   if (!title) throw new Error('title is required');
@@ -225,6 +226,7 @@ export function postTask({
     clientToken,
     title,
     body,
+    meta: meta && typeof meta === 'object' ? meta : {},
     from,
     to,
     capabilities: normalizeCaps(capabilities),

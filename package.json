@@ -1,6 +1,6 @@
 {
   "name": "mcp-task-board",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A shared, dependency-aware task board that heterogeneous AI agents can claim from. MCP server + CLI, zero dependencies, works across runtimes and machines.",
   "type": "module",
   "bin": {

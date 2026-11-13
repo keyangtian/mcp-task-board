@@ -6,6 +6,8 @@
 
 **智能体不共享运行时，那就给它们一块板。**
 
+![demo](docs/demo.gif)
+
 一块长在文件系统上的任务板，零依赖：Claude Code、WorkBuddy、DeepSeek Harness、定时脚本、带 shell 的 Python 机器人…… 任何智能体都能从同一条队列里领活。
 
 不用服务器，不用数据库，不用共享记忆。就是一个目录 + 原子认领 + 租约 + 依赖 + 能力约束。
@@ -68,6 +70,24 @@ done
 
 板目录是智能体唯一需要共享的东西；跨机器就放到共享盘上。
 
+## 作为 A2A 端点用
+
+看不到目录的远端智能体也能派活：适配层把「一个 A2A 任务」映射成「一个板任务」，认领、租约、结案这些语义仍然只存在于板上。
+
+```bash
+node bin/taskboard.mjs a2a --agent dsh --port 7801            # 卡片在 /.well-known/agent-card.json
+node bin/taskboard.mjs a2a --agent dsh --token "$A2A_TOKEN"   # 要求 Bearer token
+```
+
+- `GET /.well-known/agent-card.json`：v1.0 卡片，`capabilities.streaming: true`，一个 `task-board` 技能，JSON-RPC 接口同时声明 `1.0` 与 `0.3`。
+- JSON-RPC：`message/send`、`message/stream`、`tasks/get`、`tasks/cancel`、`tasks/resubscribe`；v1.0 的 `SendMessage` 等帕斯卡命名也接受（现网客户端大多还发 0.3 小写名）。
+- REST：`POST /message:send`、`POST /message:stream`、`GET /tasks/<id>`、`POST /tasks/<id>/cancel`。
+- 状态映射：`queued → TASK_STATE_SUBMITTED`、`claimed → TASK_STATE_WORKING`、`done → TASK_STATE_COMPLETED`、`failed → TASK_STATE_FAILED`、`cancelled → TASK_STATE_CANCELED`；结案摘要、证据、产物引用合成一个 artifact 返回。
+- `message/send` 默认阻塞到任务结束；客户端设 `configuration.blocking: false` 变成异步。`message/stream` 用 SSE 跟到底并带 `final: true`。
+- 推送通知（webhook）未实现，卡片里如实写 `pushNotifications: false`。
+
+细节、限制和客户端示例见 [docs/A2A.md](docs/A2A.md)。
+
 ## 它保证什么
 
 - **只有一个认领者**：认领是对任务文件做 `rename()`，由文件系统裁决胜负（测试里 12 个进程抢 1 个任务、6 个任务 6 个进程各得其一）。
@@ -98,6 +118,7 @@ done
 | `stats` / `events` | 健康度与审计 |
 | `agents register` / `agents list` | 能力卡 |
 | `mcp` | 以 MCP stdio 服务运行 |
+| `a2a` | 以 A2A 服务运行（`--port`、`--host`、`--public-url`、`--token`） |
 
 ## 能接谁
 
@@ -118,8 +139,8 @@ done
 
 ## 路线图
 
-- A2A 适配层：在板上发布 agent card，暴露 `SendMessage` / `GetTask` / `SubscribeToTask`，让远端智能体不必共享文件系统也能委派。
-- 可选 HTTP 传输。
+- A2A 端点补齐 webhook 推送；目前只有轮询与 SSE，卡片里如实写了。
+- 多租户：一个 A2A 服务托管多块板。
 - 面向不可信对端的任务签名。
 
 MIT 协议。Node ≥ 18，零依赖。

@@ -1,0 +1,11 @@
+﻿a2a endpoint: http://127.0.0.1:59378
+card: MCP Task Board v0.2.0, streaming=true, interfaces=1.0/0.3
+worker claimed: ab-20261113-165426-ecad7f (Write the launch note)
+worker completed: done
+remote client saw: TASK_STATE_COMPLETED
+artifact:
+{
+  "summary": "wrote the launch note",
+  "evidence": "docs/launch.md, 4 paragraphs, mentions 2026-11-13 and links CHANGELOG.md",
+  "artifacts": []
+}
