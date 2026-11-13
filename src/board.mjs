@@ -25,7 +25,7 @@ const TERMINAL = ['done', 'failed', 'cancelled'];
 
 export function boardHome(env = process.env) {
   if (env.TASKBOARD_HOME) return path.resolve(env.TASKBOARD_HOME);
-  if (env.AGENT_BOARD_DIR) return path.resolve(env.AGENT_BOARD_DIR);
+  if (env.TASKBOARD_DIR) return path.resolve(env.TASKBOARD_DIR);
   return path.join(os.homedir(), '.mcp-task-board');
 }
 
