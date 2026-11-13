@@ -107,7 +107,7 @@ This one is deliberately narrow, and the narrow part is the point:
 
 - **Capability routing is enforced at claim time**, not just "who is idle takes it". The most common failure mode of agent teams is a read-only worker claiming a task that needs write access.
 - **Artifacts are references + sha256**, never inline. Other boards pass task text and burn tokens on payloads; the board keeps its hands off the bytes.
-- **Zero runtime dependencies, no database, no daemon.** Four source files, `node >= 18`, a directory. It runs from a USB stick, on Windows, on a mounted share, on a locked-down box where you cannot install SQLite.
+- **Zero runtime dependencies, no database, no daemon.** Three source files, ~1,000 lines, `node >= 18`, a directory. It runs from a USB stick, on Windows, on a mounted share, on a locked-down box where you cannot install SQLite.
 - **Claim refusal reasons are ranked**, so a worker loop can tell "work is blocked" from "I am not the right agent" without parsing prose.
 
 If you already run sugar, keep it and use this board only for the capability-routed, cross-vendor case; the task format is plain JSON on purpose.
