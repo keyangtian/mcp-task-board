@@ -1,0 +1,43 @@
+{
+  "name": "mcp-task-board",
+  "version": "0.1.0",
+  "description": "A shared, dependency-aware task board that heterogeneous AI agents can claim from. MCP server + CLI, zero dependencies, works across runtimes and machines.",
+  "type": "module",
+  "bin": {
+    "mcp-task-board": "bin/taskboard.mjs",
+    "taskboard": "bin/taskboard.mjs"
+  },
+  "exports": {
+    ".": "./src/board.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "examples",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "demo": "node examples/demo.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "multi-agent",
+    "agents",
+    "task-board",
+    "orchestration",
+    "a2a",
+    "agent2agent",
+    "claude-code",
+    "workbuddy",
+    "deepseek-harness"
+  ],
+  "license": "MIT"
+}
