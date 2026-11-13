@@ -1,4 +1,4 @@
-﻿board: C:\Users\Administrator\AppData\Local\Temp\mcp-task-board-demo-ybGrSG
+board: <tmp>/mcp-task-board-demo
 
 race: 8 processes, 1 winner(s), 7 "nothing to claim"
   ab-20261113-165425-ebbacf went to bot-0
@@ -12,4 +12,4 @@ board: queued=0 claimed=1 done=3 failed=0
   done ab-20261113-165426-b2dffb by writer: write the first draft
   done ab-20261113-165426-a8bcb7 by analyst: gather the numbers
 
-events log: C:\Users\Administrator\AppData\Local\Temp\mcp-task-board-demo-ybGrSG\events.jsonl
+events log: <tmp>/mcp-task-board-demo

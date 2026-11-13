@@ -1,4 +1,4 @@
-﻿a2a endpoint: http://127.0.0.1:59378
+a2a endpoint: http://127.0.0.1:7801
 card: MCP Task Board v0.2.0, streaming=true, interfaces=1.0/0.3
 worker claimed: ab-20261113-165426-ecad7f (Write the launch note)
 worker completed: done
